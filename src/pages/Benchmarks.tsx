@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { ChartBar, Download } from "lucide-react";
 import { useState, useEffect } from "react";
 import { BenchmarkResult } from "@/types";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function BenchmarksPage() {
   const [benchmarks, setBenchmarks] = useState<BenchmarkResult[]>([]);
@@ -39,14 +40,16 @@ export default function BenchmarksPage() {
             <CardTitle>Benchmark Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <div className="space-y-8">
               {benchmarks.map((benchmark) => (
-                <div key={benchmark.id} className="space-y-2">
+                <div key={benchmark.id} className="space-y-4 pb-6 border-b border-gray-200 last:border-0 last:pb-0">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{(benchmark as any).documentName || `Document ${benchmark.documentId}`}</div>
+                      <div className="font-medium text-lg">
+                        {benchmark.documentName || `Document ${benchmark.documentId}`}
+                      </div>
                       <div className="text-sm text-muted-foreground">
-                        {format(benchmark.date, "PPP")} · {benchmark.issuesAnalyzed} issues analyzed
+                        {format(benchmark.date, "PPP")} · Playbook ID: {benchmark.playbookId}
                       </div>
                     </div>
                     <Button 
@@ -58,36 +61,50 @@ export default function BenchmarksPage() {
                       Download Report
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="flex justify-between text-sm">
-                        <span>Accuracy:</span>
-                        <span>{(benchmark.accuracy * 100).toFixed(1)}%</span>
-                      </div>
-                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary"
-                          style={{ width: `${benchmark.accuracy * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm">
-                        <span>Match Rate:</span>
-                        <span>{(benchmark.matchRate * 100).toFixed(1)}%</span>
-                      </div>
-                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary"
-                          style={{ width: `${benchmark.matchRate * 100}%` }}
-                        />
-                      </div>
-                    </div>
+                  
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead colSpan={2} className="font-medium text-primary">Benchmark Summary</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">Document:</TableCell>
+                          <TableCell>{benchmark.documentName || `Document ${benchmark.documentId}`}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Playbook:</TableCell>
+                          <TableCell>Playbook {benchmark.playbookId}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Overall % correct:</TableCell>
+                          <TableCell>{(benchmark.accuracy * 100).toFixed(1)}%</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Issue detection accuracy:</TableCell>
+                          <TableCell>{benchmark.issueDetectionCount} of {benchmark.issueDetectionTotal} issues</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Issue location accuracy:</TableCell>
+                          <TableCell>{benchmark.issueLocationCount} of {benchmark.issueLocationTotal} issues</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Summary accuracy:</TableCell>
+                          <TableCell>{benchmark.summaryCount} of {benchmark.summaryTotal} issues</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Redlining accuracy:</TableCell>
+                          <TableCell>{benchmark.redliningCount} of {benchmark.redliningTotal} issues</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
                   </div>
+                  
                   <div className="text-sm">
                     <span className="font-medium">Insights:</span> {benchmark.insights}
                   </div>
-                  <hr className="my-4" />
                 </div>
               ))}
             </div>

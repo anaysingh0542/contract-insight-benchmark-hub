@@ -48,10 +48,20 @@ export const mockDocuments: Document[] = [
         documentId: "d1",
         playbookId: "p1",
         date: new Date("2024-03-18"),
-        issuesAnalyzed: 12,
+        issuesAnalyzed: 42,
         accuracy: 0.85,
         matchRate: 0.82,
-        insights: "Good performance on confidentiality clauses but missed some term definitions."
+        insights: "Good performance on confidentiality clauses but missed some term definitions.",
+        // Added detailed metrics
+        issueDetectionCount: 36,
+        issueDetectionTotal: 42,
+        issueLocationCount: 34,
+        issueLocationTotal: 42,
+        summaryCount: 32,
+        summaryTotal: 42,
+        redliningCount: 28,
+        redliningTotal: 42,
+        documentName: "Acme Corp NDA.docx"
       }
     ]
   },
@@ -95,20 +105,40 @@ export const mockDocuments: Document[] = [
         documentId: "d5",
         playbookId: "p1",
         date: new Date("2024-01-18"),
-        issuesAnalyzed: 12,
+        issuesAnalyzed: 38,
         accuracy: 0.78,
         matchRate: 0.75,
-        insights: "Initial benchmark showed gaps in handling jurisdiction clauses."
+        insights: "Initial benchmark showed gaps in handling jurisdiction clauses.",
+        // Added detailed metrics
+        issueDetectionCount: 29,
+        issueDetectionTotal: 38,
+        issueLocationCount: 26,
+        issueLocationTotal: 38,
+        summaryCount: 24,
+        summaryTotal: 38,
+        redliningCount: 21,
+        redliningTotal: 38,
+        documentName: "GlobalTech NDA 2023.docx"
       },
       {
         id: "br3",
         documentId: "d5",
         playbookId: "p1",
         date: new Date("2024-04-05"),
-        issuesAnalyzed: 12,
+        issuesAnalyzed: 38,
         accuracy: 0.91,
         matchRate: 0.89,
-        insights: "Significant improvement after model retraining, especially on jurisdiction clauses."
+        insights: "Significant improvement after model retraining, especially on jurisdiction clauses.",
+        // Added detailed metrics
+        issueDetectionCount: 35,
+        issueDetectionTotal: 38,
+        issueLocationCount: 33,
+        issueLocationTotal: 38,
+        summaryCount: 32,
+        summaryTotal: 38,
+        redliningCount: 30,
+        redliningTotal: 38,
+        documentName: "GlobalTech NDA 2023.docx"
       }
     ]
   }

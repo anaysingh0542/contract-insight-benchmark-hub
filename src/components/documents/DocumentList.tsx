@@ -13,7 +13,6 @@ import {
   ChevronDown, 
   Download, 
   Edit, 
-  EyeOff, 
   FileText
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -31,17 +30,20 @@ export function DocumentList({ documents, onRefresh }: DocumentListProps) {
   const navigate = useNavigate();
 
   const getStatusBadge = (status: DocumentStatus) => {
-    const statusConfig = {
-      uploaded: { label: "Uploaded", variant: "outline" as const },
-      pending_labeling: { label: "Pending Labeling", variant: "secondary" as const },
-      labeled: { label: "Labeled", variant: "default" as const },
-      benchmarking: { label: "Benchmarking", variant: "warning" as const },
-      benchmarked: { label: "Benchmarked", variant: "success" as const }
-    };
-
-    const config = statusConfig[status] || statusConfig.uploaded;
-
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    switch (status) {
+      case DocumentStatus.UPLOADED:
+        return <Badge variant="outline">Uploaded</Badge>;
+      case DocumentStatus.PENDING_LABELING:
+        return <Badge variant="secondary">Pending Labeling</Badge>;
+      case DocumentStatus.LABELED:
+        return <Badge variant="default">Labeled</Badge>;
+      case DocumentStatus.BENCHMARKING:
+        return <Badge variant="secondary">Benchmarking</Badge>;
+      case DocumentStatus.BENCHMARKED:
+        return <Badge variant="default">Benchmarked</Badge>;
+      default:
+        return <Badge variant="outline">Unknown</Badge>;
+    }
   };
 
   const handleStartBenchmark = useCallback(async (documentId: string) => {
@@ -119,7 +121,14 @@ export function DocumentList({ documents, onRefresh }: DocumentListProps) {
                       View Details
                     </DropdownMenuItem>
                     
-                    {doc.goldenDatasetCreated && doc.status !== DocumentStatus.BENCHMARKING && (
+                    {!doc.goldenDatasetCreated && (
+                      <DropdownMenuItem>
+                        <Edit className="mr-2 h-4 w-4" />
+                        Label in Word Add-in
+                      </DropdownMenuItem>
+                    )}
+                    
+                    {doc.goldenDatasetCreated && doc.playbookId && doc.status !== DocumentStatus.BENCHMARKING && (
                       <DropdownMenuItem onClick={() => handleStartBenchmark(doc.id)}>
                         <ChartBar className="mr-2 h-4 w-4" />
                         Start Benchmark
@@ -130,13 +139,6 @@ export function DocumentList({ documents, onRefresh }: DocumentListProps) {
                       <DropdownMenuItem onClick={() => downloadLatestReport(doc)}>
                         <Download className="mr-2 h-4 w-4" />
                         Download Report
-                      </DropdownMenuItem>
-                    )}
-                    
-                    {!doc.goldenDatasetCreated && (
-                      <DropdownMenuItem>
-                        <Edit className="mr-2 h-4 w-4" />
-                        Label in Word Add-in
                       </DropdownMenuItem>
                     )}
                   </DropdownMenuContent>

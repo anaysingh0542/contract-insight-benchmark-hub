@@ -70,6 +70,14 @@ export const documentService = {
     return true;
   },
   
+  updateDocument: (updatedDoc: Document): boolean => {
+    const docIndex = documents.findIndex(doc => doc.id === updatedDoc.id);
+    if (docIndex === -1) return false;
+    
+    documents[docIndex] = updatedDoc;
+    return true;
+  },
+  
   setGoldenDatasetCreated: (documentId: string, created: boolean): boolean => {
     const docIndex = documents.findIndex(doc => doc.id === documentId);
     if (docIndex === -1) return false;

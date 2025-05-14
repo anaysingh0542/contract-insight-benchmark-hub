@@ -30,7 +30,7 @@ export function BenchmarkResults({ results, documentId }: BenchmarkResultsProps)
         ) : (
           <div className="space-y-6">
             {results.map((result) => (
-              <div key={result.id} className="space-y-3">
+              <div key={result.id} className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium">{format(result.date, "PPP")}</div>
@@ -47,23 +47,108 @@ export function BenchmarkResults({ results, documentId }: BenchmarkResultsProps)
                     Report
                   </Button>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span>Accuracy</span>
-                    <span>{(result.accuracy * 100).toFixed(1)}%</span>
-                  </div>
-                  <Progress value={result.accuracy * 100} className="h-2" />
+                
+                <div className="bg-gray-50 p-4 rounded-md">
+                  <h3 className="font-medium mb-3">Benchmark Results Summary</h3>
+                  
+                  <dl className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <dt className="text-muted-foreground">Overall Accuracy</dt>
+                      <dd className="font-medium">{(result.accuracy * 100).toFixed(1)}%</dd>
+                    </div>
+                    
+                    <div>
+                      <dt className="text-muted-foreground">Issue Detection</dt>
+                      <dd className="font-medium">
+                        {result.issueDetectionCount} of {result.issueDetectionTotal} issues
+                      </dd>
+                    </div>
+                    
+                    <div>
+                      <dt className="text-muted-foreground">Issue Location</dt>
+                      <dd className="font-medium">
+                        {result.issueLocationCount} of {result.issueLocationTotal} issues
+                      </dd>
+                    </div>
+                    
+                    <div>
+                      <dt className="text-muted-foreground">Summary Accuracy</dt>
+                      <dd className="font-medium">
+                        {result.summaryCount} of {result.summaryTotal} issues
+                      </dd>
+                    </div>
+                    
+                    <div>
+                      <dt className="text-muted-foreground">Redlining Accuracy</dt>
+                      <dd className="font-medium">
+                        {result.redliningCount} of {result.redliningTotal} issues
+                      </dd>
+                    </div>
+                  </dl>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span>Match Rate</span>
-                    <span>{(result.matchRate * 100).toFixed(1)}%</span>
+                
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Issue Detection Accuracy</span>
+                      <span>
+                        {result.issueDetectionCount} / {result.issueDetectionTotal}
+                        ({(result.issueDetectionCount / result.issueDetectionTotal * 100).toFixed(1)}%)
+                      </span>
+                    </div>
+                    <Progress 
+                      value={(result.issueDetectionCount / result.issueDetectionTotal) * 100} 
+                      className="h-2" 
+                    />
                   </div>
-                  <Progress value={result.matchRate * 100} className="h-2" />
+                  
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Issue Location Accuracy</span>
+                      <span>
+                        {result.issueLocationCount} / {result.issueLocationTotal}
+                        ({(result.issueLocationCount / result.issueLocationTotal * 100).toFixed(1)}%)
+                      </span>
+                    </div>
+                    <Progress 
+                      value={(result.issueLocationCount / result.issueLocationTotal) * 100} 
+                      className="h-2" 
+                    />
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Summary Accuracy</span>
+                      <span>
+                        {result.summaryCount} / {result.summaryTotal}
+                        ({(result.summaryCount / result.summaryTotal * 100).toFixed(1)}%)
+                      </span>
+                    </div>
+                    <Progress 
+                      value={(result.summaryCount / result.summaryTotal) * 100} 
+                      className="h-2" 
+                    />
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Redlining Accuracy</span>
+                      <span>
+                        {result.redliningCount} / {result.redliningTotal}
+                        ({(result.redliningCount / result.redliningTotal * 100).toFixed(1)}%)
+                      </span>
+                    </div>
+                    <Progress 
+                      value={(result.redliningCount / result.redliningTotal) * 100} 
+                      className="h-2" 
+                    />
+                  </div>
                 </div>
-                <div className="text-sm">
+                
+                <div className="text-sm pt-2">
                   <strong>Insights:</strong> {result.insights}
                 </div>
+                
                 <hr />
               </div>
             ))}

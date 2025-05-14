@@ -44,6 +44,16 @@ export interface BenchmarkResult {
   accuracy: number;
   matchRate: number;
   insights: string;
+  // Added detailed accuracy metrics
+  issueDetectionCount: number;
+  issueDetectionTotal: number;
+  issueLocationCount: number;
+  issueLocationTotal: number;
+  summaryCount: number;
+  summaryTotal: number;
+  redliningCount: number;
+  redliningTotal: number;
+  documentName?: string; // For displaying in lists
 }
 
 export interface BenchmarkReport {

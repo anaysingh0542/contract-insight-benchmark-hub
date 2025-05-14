@@ -5,11 +5,12 @@ import { PlaybookSelector } from "@/components/documents/PlaybookSelector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { documentService } from "@/services/documentService";
-import { Document } from "@/types";
+import { Document, DocumentStatus } from "@/types";
 import { format } from "date-fns";
-import { ChartBar, FileText } from "lucide-react";
+import { ChartBar, Edit, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function DocumentDetailsPage() {
   const [document, setDocument] = useState<Document | null>(null);
@@ -46,6 +47,14 @@ export default function DocumentDetailsPage() {
   }
   
   const playbooks = documentService.getAllPlaybooks();
+  const assignedPlaybook = document.playbookId 
+    ? playbooks.find(p => p.id === document.playbookId)
+    : undefined;
+    
+  const handleOpenWordAddin = () => {
+    toast.info("Opening document in Word Add-in...");
+    // In a real app, this would launch or redirect to the Word Add-in
+  };
   
   return (
     <div className="space-y-6">
@@ -56,9 +65,17 @@ export default function DocumentDetailsPage() {
             Uploaded on {format(document.uploadDate, "PPP")}
           </p>
         </div>
-        <Button variant="outline" onClick={() => navigate("/documents")}>
-          Back to Documents
-        </Button>
+        <div className="flex space-x-2">
+          {!document.goldenDatasetCreated && (
+            <Button variant="outline" onClick={handleOpenWordAddin}>
+              <Edit className="mr-2 h-4 w-4" />
+              Open in Word Add-in
+            </Button>
+          )}
+          <Button variant="outline" onClick={() => navigate("/documents")}>
+            Back to Documents
+          </Button>
+        </div>
       </div>
       
       <div className="grid gap-6 md:grid-cols-2">
@@ -82,9 +99,7 @@ export default function DocumentDetailsPage() {
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">Assigned Playbook</dt>
                 <dd className="mt-1 text-sm font-medium">
-                  {document.playbookId ? 
-                    playbooks.find(p => p.id === document.playbookId)?.name || document.playbookId 
-                    : "None"}
+                  {assignedPlaybook ? assignedPlaybook.name : "None"}
                 </dd>
               </div>
               <div>
@@ -95,6 +110,13 @@ export default function DocumentDetailsPage() {
                     : "No benchmarks"}
                 </dd>
               </div>
+              
+              {assignedPlaybook && (
+                <div className="col-span-2">
+                  <dt className="text-sm font-medium text-muted-foreground">Playbook Description</dt>
+                  <dd className="mt-1 text-sm">{assignedPlaybook.description}</dd>
+                </div>
+              )}
             </dl>
             
             {!document.goldenDatasetCreated && (
@@ -102,7 +124,7 @@ export default function DocumentDetailsPage() {
                 <p className="text-sm">
                   This document doesn't have a golden dataset. Create one in the Word Add-in.
                 </p>
-                <Button variant="outline">
+                <Button variant="outline" onClick={handleOpenWordAddin}>
                   Open in Word Add-in
                 </Button>
               </div>

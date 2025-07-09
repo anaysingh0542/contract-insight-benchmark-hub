@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { documentService } from '@/services/documentService';
-import { Upload, FileText, X, AlertCircle, CheckCircle, HelpCircle } from 'lucide-react';
+import { Upload, FileText, X, AlertCircle, CheckCircle, HelpCircle, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -211,7 +210,7 @@ export function EnhancedDocumentUploader() {
                 <div className="space-y-2">
                   <Label htmlFor="playbook-select" className="flex items-center gap-1">
                     Playbook *
-                    <HelpCircle className="h-3 w-3 text-muted-foreground" title="A playbook contains the rules and criteria for contract review" />
+                    <HelpCircle className="h-3 w-3 text-muted-foreground" />
                   </Label>
                   <Select value={selectedPlaybook} onValueChange={setSelectedPlaybook}>
                     <SelectTrigger>

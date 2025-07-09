@@ -36,7 +36,7 @@ export function StyleGuide() {
               <div className="space-y-2">
                 <div className="w-full h-16 bg-destructive rounded-lg"></div>
                 <p className="text-sm font-medium">Destructive</p>
-                <p class="text-xs text-muted-foreground">Error Red</p>
+                <p className="text-xs text-muted-foreground">Error Red</p>
               </div>
             </div>
           </CardContent>

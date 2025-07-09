@@ -1,11 +1,10 @@
 
-import { DocumentUploader } from "@/components/documents/DocumentUploader";
+import { EnhancedDocumentUploader } from "@/components/documents/EnhancedDocumentUploader";
 
 export default function UploadPage() {
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">Upload Document</h1>
-      <DocumentUploader />
+    <div className="space-y-6 pb-8">
+      <EnhancedDocumentUploader />
     </div>
   );
 }
